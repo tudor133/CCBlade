@@ -22,10 +22,13 @@
  * THE SOFTWARE.
  *
  */
-
+#import "CommonValues.h"
 #import "CCBlade.h"
 
-inline float fangle(CGPoint vect){
+
+
+
+inline float fangle(GLPoint vect){
 	if (vect.x == 0.0 && vect.y == 0.0) {
 		return 0;
 	}
@@ -43,18 +46,18 @@ inline float fangle(CGPoint vect){
 	return vect.x < 0 ? angle + M_PI : angle;
 }
 
-inline void f1(CGPoint p1, CGPoint p2, float d, CGPoint *o1, CGPoint *o2){
-	float l = ccpDistance(p1, p2);
-	float angle = fangle(ccpSub(p2, p1));
-	*o1 = ccpRotateByAngle(ccp(p1.x + l,p1.y + d), p1, angle);
-	*o2 = ccpRotateByAngle(ccp(p1.x + l,p1.y - d), p1, angle);
+inline void f1(GLPoint p1, GLPoint p2, GLfloat d, GLPoint *o1, GLPoint *o2){
+	GLfloat l = ccpDistance(GLPointToCGPoint(p1), GLPointToCGPoint(p2));
+	GLfloat angle = fangle(ccpSubGL(p2, p1));
+	*o1 = ccpRotateByAngleGL(ccpGL(p1.x + l,p1.y + d), p1, angle);
+	*o2 = ccpRotateByAngleGL(ccpGL(p1.x + l,p1.y - d), p1, angle);
 }
 
-inline float lagrange1(CGPoint p1, CGPoint p2, float x){
+inline GLfloat lagrange1(GLPoint p1, GLPoint p2, GLfloat x){
 	return (x-p1.x)/(p2.x - p1.x)*p2.y + (x-p2.x)/(p1.x - p2.x)*p1.y ;
 }
 
-inline void CGPointSet(CGPoint *v, float x, float y){
+inline void CGPointSet(GLPoint *v, GLfloat x, GLfloat y){
 	v->x = x;
 	v->y = y;
 }
@@ -71,10 +74,10 @@ inline void CGPointSet(CGPoint *v, float x, float y){
     self = [super init];
     
     _pointLimit = limit;
-	_width = 5;
+	_width = 13.5*DOUBLESCALE;
 	
-    vertices = (CGPoint *)calloc(2*limit+5, sizeof(vertices[0]));
-    coordinates = (CGPoint *)calloc(2*limit+5, sizeof(coordinates[0]));
+    vertices = (GLPoint *)calloc(2*limit+5, sizeof(vertices[0]));
+    coordinates = (GLPoint *)calloc(2*limit+5, sizeof(coordinates[0]));
     
     CGPointSet(coordinates+0, 0.00, 0.5);
     reset = NO;
@@ -96,16 +99,17 @@ inline void CGPointSet(CGPoint *v, float x, float y){
 - (void) dealloc{
     free(vertices);
     free(coordinates);
-    
+    CCLOG(@"%@: %@", NSStringFromSelector(_cmd), self);
+
 }
 
 - (void) populateVertices{
-    vertices[0] = [[_path objectAtIndex:0] CGPointValue];
-    CGPoint pre = vertices[0];
+    vertices[0] = CGPointToGLPoint([[_path objectAtIndex:0] CGPointValue]);
+    GLPoint pre = vertices[0];
     
     unsigned int i = 0;
-    CGPoint it = [[_path objectAtIndex:1] CGPointValue];
-	float dd = _width / [_path count];
+    GLPoint it = CGPointToGLPoint([[_path objectAtIndex:1] CGPointValue]);
+	GLfloat dd = _width / [_path count];
 	while (i < [_path count] - 2){
 		f1(pre, it, _width - i * dd , vertices+2*i+1, vertices+2*i+2);
 		CGPointSet(coordinates+2*i+1, .5, 1.0);
@@ -114,7 +118,7 @@ inline void CGPointSet(CGPoint *v, float x, float y){
 		i++;
 		pre = it;
 		
-		it = [[_path objectAtIndex:i+1] CGPointValue];
+		it = CGPointToGLPoint([[_path objectAtIndex:i+1] CGPointValue]);
 	}
     
     CGPointSet(coordinates+1, 0.25, 1.0);
@@ -132,13 +136,13 @@ inline void CGPointSet(CGPoint *v, float x, float y){
 	}
 }
 
-- (void) set_width:(float)newWidth{
+- (void) set_width:(GLfloat)newWidth{
     _width = newWidth ;//* CC_CONTENT_SCALE_FACTOR();
 }
 
 #define DISTANCE_TO_INTERPOLATE 10
 
-- (void) push:(CGPoint) v{
+- (void) push:(GLPoint) v{
     _willPop = NO;
     
 	if (reset) {
@@ -148,21 +152,25 @@ inline void CGPointSet(CGPoint *v, float x, float y){
 #if USE_LAGRANGE
     
     if ([_path count] == 0) {
-        [_path insertObject:[NSValue valueWithCGPoint:v] atIndex:0];
+        [_path insertObject:[NSValue valueWithCGPoint:GLPointToCGPoint(v)] atIndex:0];
         return;
     }
     
-    CGPoint first = [[_path objectAtIndex:0] CGPointValue];
-    if (ccpDistance(v, first) < DISTANCE_TO_INTERPOLATE) {
-        [_path insertObject:[NSValue valueWithCGPoint:v] atIndex:0];
+    CGPoint first2 = [[_path objectAtIndex:0] CGPointValue];
+    
+    
+    GLPoint first=GLPointMake(first2.x, first2.y);
+    
+    if (ccpDistance(GLPointToCGPoint(v),GLPointToCGPoint(first)) < DISTANCE_TO_INTERPOLATE) {
+        [_path insertObject:[NSValue valueWithCGPoint:GLPointToCGPoint(v)] atIndex:0];
         if ([_path count] > _pointLimit) {
             [_path removeLastObject];
         }
     }else{
-        int num = ccpDistance(v, first) / DISTANCE_TO_INTERPOLATE;
-        CGPoint iv = ccpMult(ccpSub(v, first), (float)1./(num + 1));
+        int num = ccpDistance(GLPointToCGPoint(v),GLPointToCGPoint(first)) / DISTANCE_TO_INTERPOLATE;
+        CGPoint iv = ccpMult(GLPointToCGPoint(ccpSubGL(v, first)), (GLfloat)1./(num + 1));
 		for (int i = 1; i <= num + 1; i++) {
-            [_path insertObject:[NSValue valueWithCGPoint:ccpAdd(first, ccpMult(iv, i))] atIndex:0];
+            [_path insertObject:[NSValue valueWithCGPoint:ccpAdd(GLPointToCGPoint(first), ccpMult(iv, i))] atIndex:0];
 		}
 		while ([_path count] > _pointLimit) {
 			[_path removeLastObject];
@@ -209,8 +217,8 @@ inline void CGPointSet(CGPoint *v, float x, float y){
     
     timeSinceLastPop += dt;
     
-    float precision = 1./60.;
-    float roundedTimeSinceLastPop = precision * roundf(timeSinceLastPop/precision); // helps because fps flucuate around 1./60.
+    GLfloat precision = 1./60.;
+    GLfloat roundedTimeSinceLastPop = precision * roundf(timeSinceLastPop/precision); // helps because fps flucuate around 1./60.
     
     int numberOfPops = (int)  (roundedTimeSinceLastPop/popTimeInterval) ;
     timeSinceLastPop = timeSinceLastPop - numberOfPops * popTimeInterval;
@@ -261,15 +269,20 @@ inline void CGPointSet(CGPoint *v, float x, float y){
     glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
     
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 2*[_path count]-2);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 2*(int)[_path count]-2);
 	
     CC_INCREMENT_GL_DRAWS(1);
+    
+    
 }
+
 
 - (void) finish
 {
     _finish = YES;
 }
+
+
+
 
 @end

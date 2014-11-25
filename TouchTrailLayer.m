@@ -57,7 +57,7 @@
 		[self addChild:w];
 		CGPoint pos = [touch locationInView:touch.view];
 		pos = [[CCDirector sharedDirector] convertToGL:pos];
-		[w push:pos];
+		[w push:CGPointToGLPoint(pos)];
 	}
 }
 
@@ -66,7 +66,7 @@
 		CCBlade *w = (CCBlade *)CFDictionaryGetValue(map, (__bridge const void *)(touch));
 		CGPoint pos = [touch locationInView:touch.view];
 		pos = [[CCDirector sharedDirector] convertToGL:pos];
-		[w push:pos];
+		[w push:CGPointToGLPoint(pos)];
 	}
 }
 

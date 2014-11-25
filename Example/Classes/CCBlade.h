@@ -27,19 +27,56 @@
 #import "cocos2d.h"
 
 #define USE_LAGRANGE        1
-#define USE_STL_LIST        0
+#define USE_STL_LIST        1
 #define USE_UPDATE_FOR_POP  1
 
-inline float fangle(CGPoint vect);
-inline float lagrange1(CGPoint p1, CGPoint p2, float x);
+//static inline GLPoint ccpMult(const GLPoint v, const CGFloat s) { return ccp(v.x*s, v.y*s); }
 
-inline void CGPointSet(CGPoint *v, float x, float y);
-inline void f1(CGPoint p1, CGPoint p2, float d, CGPoint *o1, CGPoint *o2);
+
+typedef struct { GLfloat x; GLfloat y; } GLPoint;
+
+static CGPoint GLPointToCGPoint(GLPoint point) { return CGPointMake(point.x, point.y); }
+
+static GLPoint GLPointMake(CGFloat x, CGFloat y) { GLPoint p; p.x = x; p.y = y; return p; }
+
+static GLPoint CGPointToGLPoint(CGPoint point) { GLPoint p; p.x = point.x; p.y = point.y; return p; }
+
+static inline GLPoint ccpGL( GLfloat x, GLfloat y )
+{
+    return GLPointMake(x, y);
+}
+
+static inline GLPoint ccpSubGL(const GLPoint v1, const GLPoint v2){   return ccpGL(v1.x - v2.x, v1.y - v2.y);}
+
+static GLPoint ccpRotateByAngleGL(GLPoint v, GLPoint pivot, GLfloat angle);
+
+
+GLPoint ccpRotateByAngleGL(GLPoint v, GLPoint pivot, GLfloat angle)
+{
+    GLPoint r = ccpSubGL(v, pivot);
+    GLfloat cosa = cosf(angle), sina = sinf(angle);
+    GLfloat t = r.x;
+    r.x = t*cosa - r.y*sina + pivot.x;
+    r.y = t*sina + r.y*cosa + pivot.y;
+    return r;
+}
+
+  //GLfloat ccpDistanceGL(const GLPoint v1, const GLPoint v2);
+
+
+
+
+
+inline float fangle(GLPoint vect);
+inline float lagrange1(GLPoint p1, GLPoint p2, GLfloat x);
+
+inline void CGPointSet(GLPoint *v, GLfloat x, GLfloat y);
+inline void f1(GLPoint p1, GLPoint p2, GLfloat d, GLPoint *o1, GLPoint *o2);
 
 @interface CCBlade : CCNode {
 	int count;
-	CGPoint *vertices;
-	CGPoint *coordinates;
+	GLPoint *vertices;
+	GLPoint *coordinates;
 	BOOL reset;
     BOOL _finish;
     BOOL _willPop;
@@ -49,13 +86,13 @@ inline void f1(CGPoint p1, CGPoint p2, float d, CGPoint *o1, CGPoint *o2);
 }
 @property (readonly) unsigned int pointLimit;
 @property(strong) CCTexture2D *texture;
-@property(nonatomic) float width;
+@property(nonatomic) GLfloat width;
 @property (nonatomic) BOOL autoDim;
 @property(nonatomic,strong)NSMutableArray *path;
 
 + (id) bladeWithMaximumPoint:(int) limit;
 - (id) initWithMaximumPoint:(int) limit;
-- (void) push:(CGPoint) v;
+- (void) push:(GLPoint) v;
 - (void) pop:(int) n;
 - (void) clear;
 - (void) reset;

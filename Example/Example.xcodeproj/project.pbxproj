@@ -14,7 +14,6 @@
 		473FCC4C156A6DC4007DD659 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 473FCC49156A6DC4007DD659 /* fps_images.png */; };
 		473FCC4D156A6DC4007DD659 /* fps_images-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 473FCC4A156A6DC4007DD659 /* fps_images-hd.png */; };
 		473FCC4E156A6DC4007DD659 /* fps_images-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 473FCC4B156A6DC4007DD659 /* fps_images-ipadhd.png */; };
-		47B71D60137130530008113A /* CCBlade.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B71D5D137130530008113A /* CCBlade.m */; };
 		47B71D61137130530008113A /* TouchTrailLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B71D5F137130530008113A /* TouchTrailLayer.m */; };
 		47B71D65137130680008113A /* streak1.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B71D62137130680008113A /* streak1.png */; };
 		47B71D66137130680008113A /* streak2.png in Resources */ = {isa = PBXBuildFile; fileRef = 47B71D63137130680008113A /* streak2.png */; };
@@ -27,6 +26,7 @@
 		506EDBA5102F4C9F00A389B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506EDBA4102F4C9F00A389B3 /* AVFoundation.framework */; };
 		50F414F01069373D002A0D5E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414EC1069373D002A0D5E /* Default.png */; };
 		50F414F21069373D002A0D5E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414EE1069373D002A0D5E /* Icon.png */; };
+		6B7F988D1A24C53B00AE6541 /* CCBlade.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F988C1A24C53B00AE6541 /* CCBlade.mm */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
 		DCCBF1B70F6022AE0040855A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */; };
@@ -54,8 +54,6 @@
 		473FCC49156A6DC4007DD659 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		473FCC4A156A6DC4007DD659 /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-hd.png"; sourceTree = "<group>"; };
 		473FCC4B156A6DC4007DD659 /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fps_images-ipadhd.png"; sourceTree = "<group>"; };
-		47B71D5C137130530008113A /* CCBlade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBlade.h; path = ../../CCBlade.h; sourceTree = "<group>"; };
-		47B71D5D137130530008113A /* CCBlade.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = CCBlade.m; path = ../../CCBlade.m; sourceTree = "<group>"; };
 		47B71D5E137130530008113A /* TouchTrailLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchTrailLayer.h; path = ../../TouchTrailLayer.h; sourceTree = "<group>"; };
 		47B71D5F137130530008113A /* TouchTrailLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TouchTrailLayer.m; path = ../../TouchTrailLayer.m; sourceTree = "<group>"; };
 		47B71D62137130680008113A /* streak1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = streak1.png; sourceTree = "<group>"; };
@@ -70,6 +68,8 @@
 		50F414EC1069373D002A0D5E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		50F414EE1069373D002A0D5E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		50F414EF1069373D002A0D5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B7F988B1A24C53B00AE6541 /* CCBlade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBlade.h; sourceTree = "<group>"; };
+		6B7F988C1A24C53B00AE6541 /* CCBlade.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCBlade.mm; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DC6640040F83B3EA000B3E49 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -157,10 +157,10 @@
 			children = (
 				473FCC42156A6B03007DD659 /* HelloWorldLayer.h */,
 				473FCC43156A6B03007DD659 /* HelloWorldLayer.m */,
-				47B71D5C137130530008113A /* CCBlade.h */,
-				47B71D5D137130530008113A /* CCBlade.m */,
 				47B71D5E137130530008113A /* TouchTrailLayer.h */,
 				47B71D5F137130530008113A /* TouchTrailLayer.m */,
+				6B7F988B1A24C53B00AE6541 /* CCBlade.h */,
+				6B7F988C1A24C53B00AE6541 /* CCBlade.mm */,
 				1F3B9A2C0EF2145700286867 /* ExampleAppDelegate.h */,
 				1F3B9A2B0EF2145700286867 /* ExampleAppDelegate.m */,
 			);
@@ -274,8 +274,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				6B7F988D1A24C53B00AE6541 /* CCBlade.mm in Sources */,
 				1F3B9A2D0EF2145700286867 /* ExampleAppDelegate.m in Sources */,
-				47B71D60137130530008113A /* CCBlade.m in Sources */,
 				47B71D61137130530008113A /* TouchTrailLayer.m in Sources */,
 				473FCC44156A6B03007DD659 /* HelloWorldLayer.m in Sources */,
 			);
