@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  *
  */
-#import "CommonValues.h"
 #import "CCBlade.h"
 
 
@@ -74,7 +73,7 @@ inline void CGPointSet(GLPoint *v, GLfloat x, GLfloat y){
     self = [super init];
     
     _pointLimit = limit;
-	_width = 13.5*DOUBLESCALE;
+	_width = 13.5;
 	
     vertices = (GLPoint *)calloc(2*limit+5, sizeof(vertices[0]));
     coordinates = (GLPoint *)calloc(2*limit+5, sizeof(coordinates[0]));
